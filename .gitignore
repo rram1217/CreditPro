@@ -1,0 +1,29 @@
+# Build outputs
+**/bin/
+**/obj/
+**/Debug/
+**/Release/
+**/x64/
+**/x86/
+**/.vs/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+
+# Paquetes y cache
+packages/
+*.nupkg
+*.snupkg
+.nuget/
+**/TestResults/
+*.log
+
+# Secretos (ajusta a tu caso)
+appsettings.*.json
+!appsettings.Template.json
+
+# Front (si tienes)
+node_modules/
+dist/
+.env

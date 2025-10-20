@@ -1,0 +1,27 @@
+# Carpeta de salida y herramientas
+bin/
+obj/
+**/bin/
+**/obj/
+
+# IDE
+.vs/
+.vscode/
+.idea/
+
+# Control de versiones / metadatos
+.git
+.gitignore
+.github
+
+# Otros comunes
+node_modules/
+TestResults/
+coverage/
+*.user
+*.suo
+*.db
+*.db-*
+.terraform/
+*.tfstate
+*.tfstate.backup

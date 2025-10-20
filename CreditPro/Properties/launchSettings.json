@@ -1,0 +1,62 @@
+{
+  "profiles": {
+    "CreditPro": {
+      "commandName": "Project",
+      "launchBrowser": true,
+      "launchUrl": "swagger",
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development",
+        "AWS__ServiceURL": "http://localhost:8000",
+        "AWS__Region": "us-east-1",
+        "AWS_ACCESS_KEY_ID": "local",
+        "AWS_SECRET_ACCESS_KEY": "local",
+        "AWS_EC2_METADATA_DISABLED": "true",
+        "AWS_SESSION_TOKEN": "", // <- neutraliza tokens heredados
+        "AWS_SDK_LOAD_CONFIG": "0" // <- evita leer perfiles de ~/.aws/*
+      },
+      "dotnetRunMessages": true,
+      "applicationUrl": "https://localhost:7177;http://localhost:5177"
+    },
+    "IIS Express": {
+      "commandName": "IISExpress",
+      "launchBrowser": true,
+      "launchUrl": "swagger",
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development",
+        "AWS__ServiceURL": "http://localhost:8000",
+        "AWS__Region": "us-east-1",
+        "AWS_ACCESS_KEY_ID": "local",
+        "AWS_SECRET_ACCESS_KEY": "local",
+        "AWS_EC2_METADATA_DISABLED": "true",
+        "AWS_SESSION_TOKEN": "", // <- neutraliza tokens heredados
+        "AWS_SDK_LOAD_CONFIG": "0" // <- evita leer perfiles de ~/.aws/*
+      }
+    },
+    "Docker": {
+      "commandName": "Docker",
+      "launchBrowser": true,
+      "launchUrl": "swagger",
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development",
+        "AWS__ServiceURL": "http://localhost:8000",
+        "AWS__Region": "us-east-1",
+        "AWS_ACCESS_KEY_ID": "local",
+        "AWS_SECRET_ACCESS_KEY": "local",
+        "AWS_EC2_METADATA_DISABLED": "true",
+        "AWS_SESSION_TOKEN": "", // <- neutraliza tokens heredados
+        "AWS_SDK_LOAD_CONFIG": "0" // <- evita leer perfiles de ~/.aws/*
+      },
+      "publishAllPorts": true,
+      "useSSL": true
+    }
+  },
+  "$schema": "https://json.schemastore.org/launchsettings.json",
+  "iisSettings": {
+    "windowsAuthentication": false,
+    "anonymousAuthentication": true,
+    "iisExpress": {
+      "applicationUrl": "http://localhost:55793/",
+      "sslPort": 44341
+    }
+  }
+}
