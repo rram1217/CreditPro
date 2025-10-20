@@ -17,7 +17,7 @@
     </PackageReference>
 
     <!-- AWS DynamoDB -->
-    <PackageReference Include="AWSSDK.DynamoDBv2" Version="3.7.400.5" />
+    <PackageReference Include="AWSSDK.DynamoDBv2" Version="4.0.8.1" />
 
     <!-- Swagger -->
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.8.1" />

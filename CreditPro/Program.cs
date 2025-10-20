@@ -83,8 +83,8 @@ builder.Services.AddSingleton<IAmazonDynamoDB>(sp =>
         ServiceURL = serviceUrl,
         UseHttp = true,
         AuthenticationRegion = region,
-        Timeout = TimeSpan.FromSeconds(5),        // <— importante
-        ReadWriteTimeout = TimeSpan.FromSeconds(5)
+        Timeout = TimeSpan.FromSeconds(5)        // <— importante
+        //ReadWriteTimeout = TimeSpan.FromSeconds(5)
     };
 
     var creds = new BasicAWSCredentials("local", "local");
@@ -123,6 +123,22 @@ var cfg = app.Services.GetRequiredService<IConfiguration>();
 app.Logger.LogInformation("🔧 DynamoDB configurado - ServiceURL: {Url}, Region: {Region}",
     cfg["AWS:ServiceURL"] ?? "http://localhost:8000 (fallback)",
     cfg["AWS:Region"] ?? "us-east-1");
+
+app.Lifetime.ApplicationStarted.Register(async () =>
+{
+    using var scope = app.Services.CreateScope();
+    var dynamo = scope.ServiceProvider.GetRequiredService<IAmazonDynamoDB>();
+    try
+    {
+        var resp = await dynamo.ListTablesAsync();
+        Console.WriteLine($"[DynamoDB OK] Tablas: {string.Join(", ", resp.TableNames)}");
+    }
+    catch (Exception ex)
+    {
+        Console.WriteLine($"[DynamoDB ERROR] {ex.Message}");
+    }
+});
+
 
 // Configure Swagger (siempre habilitado para facilitar pruebas)
 app.UseSwagger();

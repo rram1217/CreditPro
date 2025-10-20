@@ -1,41 +1,6 @@
 version: '3.8'
 
 services:
-  api:
-    build:
-      context: .
-      dockerfile: Dockerfile
-    container_name: creditpro-api
-    environment:
-      # ASP.NET Core
-      ASPNETCORE_URLS: http://0.0.0.0:8080
-      ASPNETCORE_ENVIRONMENT: Development
-
-      # ConnectionStrings (config binding: ConnectionStrings:DefaultConnection)
-      ConnectionStrings__DefaultConnection: Host=postgres;Port=5432;Database=creditprodb;Username=postgres;Password=postgres123
-
-      # DynamoDB Local (dentro de la red docker)
-      #
-      AWS__ServiceURL: http://dynamodb-local:8000
-      AWS__Region: us-east-1
-      
-      # Credenciales dummy
-      AWS_ACCESS_KEY_ID: local
-      AWS_SECRET_ACCESS_KEY: local
-
-      # Evita que intente metadatos de EC2
-      AWS_EC2_METADATA_DISABLED: "true"
-    ports:
-      - "8080:8080"
-    depends_on:
-      postgres:
-        condition: service_healthy
-      dynamodb-local:
-        condition: service_started
-    networks:
-      - creditpro-network
-      
-
   postgres:
     image: postgres:16
     container_name: creditpro-postgres
@@ -58,7 +23,7 @@ services:
   dynamodb-local:
     image: amazon/dynamodb-local:latest
     container_name: creditpro-dynamodb
-    command: "-jar DynamoDBLocal.jar -sharedDb -dbPath ./data"
+    command: -jar DynamoDBLocal.jar -sharedDb -dbPath /home/dynamodblocal/data
     ports:
       - "8000:8000"
     volumes:
@@ -75,7 +40,7 @@ services:
     image: aaronshaf/dynamodb-admin:latest
     container_name: creditpro-dynamodb-admin
     environment:
-      DYNAMO_ENDPOINT: http://dynamodb-local:8000
+      DYNAMO_ENDPOINT: http://creditpro-dynamodb:8000
       AWS_REGION: us-east-1
     ports:
       - "8001:8001"
@@ -83,6 +48,36 @@ services:
       - creditpro-network
     depends_on:
       - dynamodb-local
+      
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: creditpro-api
+    environment:
+      # ASP.NET Core
+      #ASPNETCORE_URLS: http://0.0.0.0:8080
+      ASPNETCORE_ENVIRONMENT: Development
+      # ConnectionStrings (config binding: ConnectionStrings:DefaultConnection)
+      ConnectionStrings__DefaultConnection: Host=postgres;Port=5432;Database=creditprodb;Username=postgres;Password=postgres123
+      # DynamoDB Local (dentro de la red docker)
+      AWS__ServiceURL: http://creditpro-dynamodb:8000
+      AWS__Region: us-east-1      
+      # Credenciales dummy
+      AWS_ACCESS_KEY_ID: local
+      AWS_SECRET_ACCESS_KEY: local
+      # Evita que intente metadatos de EC2
+      AWS_EC2_METADATA_DISABLED: "true"
+    ports:
+      - "8080:8080"
+    depends_on:
+      postgres:
+        condition: service_healthy
+      dynamodb-local:
+        condition: service_started
+    networks:
+      - creditpro-network
+      
 
 volumes:
   postgres_data:
@@ -90,4 +85,5 @@ volumes:
 
 networks:
   creditpro-network:
+    name: creditpro_creditpro-network
     driver: bridge
