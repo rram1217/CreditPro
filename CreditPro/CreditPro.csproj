@@ -41,5 +41,8 @@
   <ItemGroup>
     <None Include="appsettings*.json" CopyToOutputDirectory="PreserveNewest" CopyToPublishDirectory="PreserveNewest" />
   </ItemGroup>
+  <ItemGroup>
+    <Folder Include="dynamodb_data\" />
+  </ItemGroup>
 
 </Project>
